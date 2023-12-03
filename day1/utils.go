@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"os"
 	"slices"
 	"strconv"
 	"strings"
@@ -33,17 +31,6 @@ func stringArrToIntArr(stringArr []string) []string {
 		}
 	}
 	return intArr
-}
-
-// opens a file lol
-func openFile(filePath string) (*os.File, error) {
-	file, err := os.Open(filePath)
-
-	if err != nil {
-		fmt.Println("Error opening file:", err)
-		return nil, err
-	}
-	return file, nil
 }
 
 // Finds all occurrences of each number
