@@ -48,12 +48,6 @@ func puzzle1() (int, error) {
 }
 
 func puzzle2() (int, error) {
-	// line := "qoneightfourgvz6sixone"
-	// fmt.Println(line)
-	// occurrenceMap := findAllMapOccurrences(line, validNumbers)
-	// newLine := replaceIfRelevant(line, occurrenceMap)
-	// fmt.Println(newLine)
-
 	file, err := openFile("input.txt")
 
 	if err != nil {
@@ -75,5 +69,4 @@ func puzzle2() (int, error) {
 		sumSoFar += getIntVal(lineArr)
 	}
 	return sumSoFar, nil
-	// return 0, nil
 }
