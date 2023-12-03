@@ -21,7 +21,7 @@ func main() {
 }
 
 func puzzle1() (int, error) {
-	file, err := openFile("puzzle.txt")
+	file, err := openFile("input.txt")
 
 	if err != nil {
 		return -1, err
@@ -54,7 +54,7 @@ func puzzle2() (int, error) {
 	// newLine := replaceIfRelevant(line, occurrenceMap)
 	// fmt.Println(newLine)
 
-	file, err := openFile("puzzle.txt")
+	file, err := openFile("input.txt")
 
 	if err != nil {
 		return -1, err
