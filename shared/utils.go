@@ -6,7 +6,7 @@ import (
 )
 
 // opens a file lol
-func openFile(filePath string) (*os.File, error) {
+func OpenFile(filePath string) (*os.File, error) {
 	file, err := os.Open(filePath)
 
 	if err != nil {

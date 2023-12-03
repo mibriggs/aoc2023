@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Misc/aoc2023/shared"
 	"bufio"
 	"fmt"
 	"strings"
@@ -21,7 +22,7 @@ func main() {
 }
 
 func puzzle1() (int, error) {
-	file, err := openFile("input.txt")
+	file, err := shared.OpenFile("input.txt")
 
 	if err != nil {
 		return -1, err
@@ -48,7 +49,7 @@ func puzzle1() (int, error) {
 }
 
 func puzzle2() (int, error) {
-	file, err := openFile("input.txt")
+	file, err := shared.OpenFile("input.txt")
 
 	if err != nil {
 		return -1, err

@@ -17,7 +17,6 @@ var maxCountPerCubeColor = map[string]int{
 }
 
 // For a given game, checks if each round passes the condition
-// @Returns an object with the game id and whether its valid or not
 func isValidGame(game string) GameResult {
 	gameInfo := strings.FieldsFunc(game, customSplitFunc)
 	gameNumber, _ := strconv.Atoi(strings.Fields(gameInfo[0])[1])
@@ -34,6 +33,48 @@ func isValidGame(game string) GameResult {
 		}
 	}
 	return GameResult{gameId: gameNumber, isValid: true}
+}
+
+// uses a map to maintain the min cubes/color needed for a game to be valid
+func minCountPerCube(game string) map[string]int {
+	minCounts := map[string]int{}
+	gameInfo := strings.FieldsFunc(game, customSplitFunc)
+	rounds := gameInfo[1:]
+	for _, round := range rounds {
+		cubes := strings.Split(round, ", ")
+		for _, cube := range cubes {
+			cubeInfo := strings.Fields(cube)
+			count, color := cubeInfo[0], cubeInfo[1]
+			countAsInt, _ := strconv.Atoi(count)
+
+			val, exists := minCounts[color]
+			if exists {
+				minCounts[color] = max(val, countAsInt)
+			} else {
+
+				minCounts[color] = countAsInt
+			}
+
+		}
+	}
+	return minCounts
+}
+
+// computes the power of that game (aka product of min cubes/color)
+func computePower(mapping map[string]int) int {
+	power := 1
+	for _, count := range mapping {
+		power *= count
+	}
+	return power
+}
+
+// gets the max of two ints
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Splits a game into an array where the first elem gives the id and the rest = rounds info
