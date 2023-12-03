@@ -33,6 +33,11 @@ func puzzle1(filePath string) int {
 		}
 	}
 
+	err = scanner.Err()
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+	}
+
 	return validGameSum
 }
 
@@ -52,6 +57,11 @@ func puzzle2(filePath string) int {
 		minCounts := minCountPerCube(game)
 		power := computePower(minCounts)
 		totalPowers += power
+	}
+
+	err = scanner.Err()
+	if err != nil {
+		fmt.Println("Error reading file:", err)
 	}
 
 	return totalPowers

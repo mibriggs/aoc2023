@@ -69,5 +69,11 @@ func puzzle2() (int, error) {
 		// get all chars that can be converted to int and get first/last pair
 		sumSoFar += getIntVal(lineArr)
 	}
+
+	err = scanner.Err()
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+	}
+
 	return sumSoFar, nil
 }
