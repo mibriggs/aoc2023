@@ -68,6 +68,9 @@ func puzzle2(filePath string) int {
 		}
 	}
 
+	err := scanner.Err()
+	shared.PanicIfError(err)
+
 	totalScratchcards := 0
 	for key, val := range winnings {
 		if key <= maxCardNumber && key > 0 {
