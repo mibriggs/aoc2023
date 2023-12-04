@@ -59,7 +59,14 @@ func (ll NumberLinkedList) hasAdjacentAsterick() bool {
 
 // Adds new value to linked list and returns new list
 func (parent NumberLinkedList) addChild(val string, symbol string, isConnectedToSymbol bool, isSymbolAnAsterick bool, symbolCoord Coordinate) NumberLinkedList {
-	newList := NumberLinkedList{value: val, symbol: symbol, isConnectedToSymbol: isConnectedToSymbol, isSymbolAnAsterick: isSymbolAnAsterick, symbolCoord: symbolCoord, parent: &parent}
+	newList := NumberLinkedList{
+		value:               val,
+		symbol:              symbol,
+		isConnectedToSymbol: isConnectedToSymbol,
+		isSymbolAnAsterick:  isSymbolAnAsterick,
+		symbolCoord:         symbolCoord,
+		parent:              &parent,
+	}
 	return newList
 }
 
