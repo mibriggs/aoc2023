@@ -1,18 +1,8 @@
 package main
 
 import (
-	"Misc/aoc2023/shared"
 	"strconv"
 )
-
-type NumberLinkedList struct {
-	value               string
-	symbol              string
-	isConnectedToSymbol bool
-	isSymbolAnAsterick  bool
-	symbolCoord         Coordinate
-	parent              *NumberLinkedList
-}
 
 type PartNumberAsterickMapping struct {
 	partNumber    int
@@ -46,17 +36,17 @@ func createLinkedLists(engineSchematic [][]string) []NumberLinkedList {
 			if isNumber(item) {
 				itemCoord := Coordinate{row: i, col: j}
 				hasAdjacentSymbol, symbol, symbolCoord := doesNodeHaveAdjacentSymbol(itemCoord, rowLength, colLength, engineSchematic)
-				if isEmpty(currentNumber) {
+				if currentNumber.isEmpty() {
 					currentNumber.value = item
 					currentNumber.symbol = symbol
 					currentNumber.isConnectedToSymbol = hasAdjacentSymbol
 					currentNumber.isSymbolAnAsterick = symbol == "*"
 					currentNumber.symbolCoord = symbolCoord
 				} else {
-					currentNumber = addChild(item, symbol, hasAdjacentSymbol, symbol == "*", symbolCoord, currentNumber)
+					currentNumber = currentNumber.addChild(item, symbol, hasAdjacentSymbol, symbol == "*", symbolCoord)
 				}
 			} else {
-				if !isEmpty(currentNumber) {
+				if !currentNumber.isEmpty() {
 					numbers = append(numbers, currentNumber)
 					currentNumber = NumberLinkedList{}
 				}
@@ -70,55 +60,6 @@ func createLinkedLists(engineSchematic [][]string) []NumberLinkedList {
 func isNumber(maybeNumber string) bool {
 	_, err := strconv.Atoi(maybeNumber)
 	return err == nil
-}
-
-// Checks if a linked list is empty
-func isEmpty(ll NumberLinkedList) bool {
-	return !ll.isConnectedToSymbol && ll.value == "" && ll.parent == nil
-}
-
-// Takes the number string and converts to int
-func linkedListToInt(ll NumberLinkedList) int {
-	stringRep := linkedListToIntHelper(ll)
-	intRep, err := strconv.Atoi(stringRep)
-	shared.PanicIfError(err)
-	return intRep
-}
-
-// Recursively creates the full number string
-func linkedListToIntHelper(ll NumberLinkedList) string {
-	if ll.parent == nil {
-		return ll.value
-	}
-	return linkedListToIntHelper(*ll.parent) + ll.value
-}
-
-// Checks if any node in the linked list is connected to a symbol
-func isConnectedToSymbol(ll NumberLinkedList) bool {
-	if ll.parent == nil {
-		return ll.isConnectedToSymbol
-	} else if ll.isConnectedToSymbol {
-		return true // early return so we don't have to go deeper if we already know the answer
-	} else {
-		return ll.isConnectedToSymbol || isConnectedToSymbol(*ll.parent)
-	}
-}
-
-// Checks if any node in the linked list is connected to a symbol
-func isConnectedToAsterick(ll NumberLinkedList) bool {
-	if ll.parent == nil {
-		return ll.isSymbolAnAsterick
-	} else if ll.isSymbolAnAsterick {
-		return true // early return so we don't have to go deeper if we already know the answer
-	} else {
-		return ll.isSymbolAnAsterick || isConnectedToAsterick(*ll.parent)
-	}
-}
-
-// Adds new value to linked list and returns new list
-func addChild(val string, symbol string, isConnectedToSymbol bool, isSymbolAnAsterick bool, symbolCoord Coordinate, parent NumberLinkedList) NumberLinkedList {
-	newList := NumberLinkedList{value: val, symbol: symbol, isConnectedToSymbol: isConnectedToSymbol, isSymbolAnAsterick: isSymbolAnAsterick, symbolCoord: symbolCoord, parent: &parent}
-	return newList
 }
 
 // Does the given coordinates belong to a corner piece?
@@ -179,18 +120,6 @@ func getSymbol(currentNode Coordinate, coordinatesToCheck []Coordinate, engineSc
 	return false, "", Coordinate{row: -1, col: -1}
 }
 
-// Gets all UNIQUE astericks connected to a linked list
-func getUniqueAstericks(ll NumberLinkedList) []Coordinate {
-	allAstericks := getAllAsterickCoords(ll)
-	uniqueList := []Coordinate{}
-	for _, asterickCoord := range allAstericks {
-		if !contains(uniqueList, asterickCoord) {
-			uniqueList = append(uniqueList, asterickCoord)
-		}
-	}
-	return uniqueList
-}
-
 // Does the list of coordinates contain the given coordinate
 func contains(list []Coordinate, item Coordinate) bool {
 	for _, coordinate := range list {
@@ -199,22 +128,6 @@ func contains(list []Coordinate, item Coordinate) bool {
 		}
 	}
 	return false
-}
-
-// Gets all astericks that are connected to this linked list
-func getAllAsterickCoords(ll NumberLinkedList) []Coordinate {
-	if ll.parent == nil { // end if list
-		if ll.isSymbolAnAsterick {
-			return []Coordinate{ll.symbolCoord}
-		}
-		return []Coordinate{}
-	} else { // not at end
-		toReturn := []Coordinate{}
-		if ll.isSymbolAnAsterick {
-			toReturn = append(toReturn, ll.symbolCoord)
-		}
-		return append(getAllAsterickCoords(*ll.parent), toReturn...)
-	}
 }
 
 // Filters the given list by a predicate of that signature
@@ -240,6 +153,6 @@ func count(coordinate Coordinate, list []PartNumberAsterickMapping) int {
 }
 
 // Converts a Coordinate to a string
-func coordToString(coord Coordinate) string {
+func (coord Coordinate) toString() string {
 	return strconv.Itoa(coord.row) + " " + strconv.Itoa(coord.col)
 }

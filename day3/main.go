@@ -30,8 +30,8 @@ func puzzle1(filePath string) int {
 
 	potentialPartNumbers := createLinkedLists(engineSchematic)
 	for _, ll := range potentialPartNumbers {
-		if isConnectedToSymbol(ll) {
-			partNumbersSum += linkedListToInt(ll)
+		if ll.hasAdjacentSymbol() {
+			partNumbersSum += ll.toInt()
 		}
 	}
 
@@ -58,15 +58,15 @@ func puzzle2(filePath string) int {
 	potentialPartNumbers := createLinkedLists(engineSchematic)
 	potentialGears := []NumberLinkedList{}
 	for _, ll := range potentialPartNumbers {
-		if isConnectedToSymbol(ll) && isConnectedToAsterick(ll) {
+		if ll.hasAdjacentSymbol() && ll.hasAdjacentAsterick() {
 			potentialGears = append(potentialGears, ll)
 		}
 	}
 
 	flattenedPotentialGears := []PartNumberAsterickMapping{}
 	for _, ll := range potentialGears {
-		partNumber := linkedListToInt(ll)
-		asterickCoords := getUniqueAstericks(ll)
+		partNumber := ll.toInt()
+		asterickCoords := ll.getUniqueAstericks()
 		for _, coord := range asterickCoords {
 			flattenedPotentialGears = append(flattenedPotentialGears, PartNumberAsterickMapping{partNumber: partNumber, asterickCoord: coord})
 		}
@@ -78,7 +78,7 @@ func puzzle2(filePath string) int {
 
 	gearRatios := map[string]int{}
 	for _, gear := range gears {
-		newKey := coordToString(gear.asterickCoord)
+		newKey := gear.asterickCoord.toString()
 		value, exists := gearRatios[newKey]
 		if exists {
 			gearRatios[newKey] = value * gear.partNumber
