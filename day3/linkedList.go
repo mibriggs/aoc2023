@@ -46,7 +46,7 @@ func (ll NumberLinkedList) hasAdjacentSymbol() bool {
 	}
 }
 
-// Checks if any node in this linked list is connected to a symbol
+// Checks if any node in this linked list is connected to an asterick
 func (ll NumberLinkedList) hasAdjacentAsterick() bool {
 	if ll.parent == nil {
 		return ll.isSymbolAnAsterick

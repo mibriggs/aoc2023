@@ -19,7 +19,7 @@ var leftEdge = []Coordinate{{row: 1, col: 0}, {row: -1, col: 0}, {row: 0, col: 1
 var rightEdge = []Coordinate{{row: 1, col: 0}, {row: -1, col: 0}, {row: 0, col: -1}, {row: -1, col: -1}, {row: 1, col: -1}}
 var centerPiece = []Coordinate{{row: 0, col: -1}, {row: 0, col: 1}, {row: -1, col: 0}, {row: 1, col: 0}, {row: -1, col: -1}, {row: -1, col: 1}, {row: 1, col: -1}, {row: 1, col: 1}}
 
-// Creates a list of linked lists connected to a symbol
+// Creates a list of all potential part numbers in provided engine schematic
 func createLinkedLists(engineSchematic [][]string) []NumberLinkedList {
 	numbers := []NumberLinkedList{}
 	currentNumber := NumberLinkedList{}
