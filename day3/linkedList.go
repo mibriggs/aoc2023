@@ -14,12 +14,12 @@ type NumberLinkedList struct {
 	parent              *NumberLinkedList
 }
 
-// Checks if a linked list is empty
+// Checks if this linked list is empty
 func (ll NumberLinkedList) isEmpty() bool {
 	return !ll.isConnectedToSymbol && ll.value == "" && ll.parent == nil
 }
 
-// Takes the number string and converts to int
+// Takes converts this linkedList to its part number
 func (ll NumberLinkedList) toInt() int {
 	stringRep := linkedListToIntHelper(ll)
 	intRep, err := strconv.Atoi(stringRep)
@@ -35,7 +35,7 @@ func linkedListToIntHelper(ll NumberLinkedList) string {
 	return linkedListToIntHelper(*ll.parent) + ll.value
 }
 
-// Checks if any node in the linked list is connected to a symbol
+// Checks if any node in this linked list is connected to a symbol
 func (ll NumberLinkedList) hasAdjacentSymbol() bool {
 	if ll.parent == nil {
 		return ll.isConnectedToSymbol
@@ -46,7 +46,7 @@ func (ll NumberLinkedList) hasAdjacentSymbol() bool {
 	}
 }
 
-// Checks if any node in the linked list is connected to a symbol
+// Checks if any node in this linked list is connected to a symbol
 func (ll NumberLinkedList) hasAdjacentAsterick() bool {
 	if ll.parent == nil {
 		return ll.isSymbolAnAsterick
@@ -57,7 +57,7 @@ func (ll NumberLinkedList) hasAdjacentAsterick() bool {
 	}
 }
 
-// Adds new value to linked list and returns new list
+// Adds a new value to this linked list
 func (parent NumberLinkedList) addChild(val string, symbol string, isConnectedToSymbol bool, isSymbolAnAsterick bool, symbolCoord Coordinate) NumberLinkedList {
 	newList := NumberLinkedList{
 		value:               val,
@@ -70,7 +70,7 @@ func (parent NumberLinkedList) addChild(val string, symbol string, isConnectedTo
 	return newList
 }
 
-// Gets all UNIQUE astericks connected to a linked list
+// Gets all UNIQUE astericks connected to this linked list
 func (ll NumberLinkedList) getUniqueAstericks() []Coordinate {
 	allAstericks := getAllAsterickCoords(ll)
 	uniqueList := []Coordinate{}

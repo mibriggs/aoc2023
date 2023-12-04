@@ -73,7 +73,7 @@ func puzzle2(filePath string) int {
 	}
 
 	gears := filter(flattenedPotentialGears, func(c Coordinate, pnam []PartNumberAsterickMapping) bool {
-		return count(c, pnam) == 2
+		return c.count(pnam) == 2
 	})
 
 	gearRatios := map[string]int{}

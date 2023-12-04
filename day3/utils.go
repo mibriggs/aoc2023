@@ -9,11 +9,6 @@ type PartNumberAsterickMapping struct {
 	asterickCoord Coordinate
 }
 
-type Coordinate struct {
-	row int
-	col int
-}
-
 var topLeft = []Coordinate{{row: 1, col: 0}, {row: 0, col: 1}, {row: 1, col: 1}}
 var topRight = []Coordinate{{row: 1, col: 0}, {row: 0, col: -1}, {row: 1, col: -1}}
 var bottomRight = []Coordinate{{row: -1, col: 0}, {row: 0, col: -1}, {row: -1, col: -1}}
@@ -139,20 +134,4 @@ func filter(listToFilter []PartNumberAsterickMapping, predicate func(Coordinate,
 		}
 	}
 	return newList
-}
-
-// Gets the count of a given coordinate in a list
-func count(coordinate Coordinate, list []PartNumberAsterickMapping) int {
-	currentCount := 0
-	for _, item := range list {
-		if item.asterickCoord.col == coordinate.col && item.asterickCoord.row == coordinate.row {
-			currentCount++
-		}
-	}
-	return currentCount
-}
-
-// Converts a Coordinate to a string
-func (coord Coordinate) toString() string {
-	return strconv.Itoa(coord.row) + " " + strconv.Itoa(coord.col)
 }
