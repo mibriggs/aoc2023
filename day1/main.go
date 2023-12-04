@@ -10,23 +10,15 @@ import (
 var validNumbers = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
 
 func main() {
-	sol1, err := puzzle1()
-	if err == nil {
-		fmt.Printf("Answer to problem one is: %d \n", sol1)
-	}
+	sol1 := puzzle1()
+	fmt.Printf("Answer to problem one is: %d \n", sol1)
 
-	sol2, err := puzzle2()
-	if err == nil {
-		fmt.Printf("Answer to problem two is: %d \n", sol2)
-	}
+	sol2 := puzzle2()
+	fmt.Printf("Answer to problem two is: %d \n", sol2)
 }
 
-func puzzle1() (int, error) {
-	file, err := shared.OpenFile("input.txt")
-
-	if err != nil {
-		return -1, err
-	}
+func puzzle1() int {
+	file := shared.OpenFile("input.txt")
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
@@ -41,19 +33,13 @@ func puzzle1() (int, error) {
 		sumSoFar += getIntVal(lineArr)
 	}
 
-	err = scanner.Err()
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-	}
-	return sumSoFar, nil
+	err := scanner.Err()
+	shared.PanicIfError(err)
+	return sumSoFar
 }
 
-func puzzle2() (int, error) {
-	file, err := shared.OpenFile("input.txt")
-
-	if err != nil {
-		return -1, err
-	}
+func puzzle2() int {
+	file := shared.OpenFile("input.txt")
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
@@ -70,10 +56,8 @@ func puzzle2() (int, error) {
 		sumSoFar += getIntVal(lineArr)
 	}
 
-	err = scanner.Err()
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-	}
+	err := scanner.Err()
+	shared.PanicIfError(err)
 
-	return sumSoFar, nil
+	return sumSoFar
 }

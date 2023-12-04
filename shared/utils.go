@@ -1,17 +1,18 @@
 package shared
 
 import (
-	"fmt"
 	"os"
 )
 
 // opens a file lol
-func OpenFile(filePath string) (*os.File, error) {
+func OpenFile(filePath string) *os.File {
 	file, err := os.Open(filePath)
+	PanicIfError(err)
+	return file
+}
 
+func PanicIfError(err error) {
 	if err != nil {
-		fmt.Println("Error opening file:", err)
-		return nil, err
+		panic(err)
 	}
-	return file, nil
 }

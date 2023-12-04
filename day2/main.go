@@ -15,11 +15,7 @@ func main() {
 }
 
 func puzzle1(filePath string) int {
-	file, err := shared.OpenFile(filePath)
-
-	if err != nil {
-		return -1
-	}
+	file := shared.OpenFile(filePath)
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
@@ -33,20 +29,14 @@ func puzzle1(filePath string) int {
 		}
 	}
 
-	err = scanner.Err()
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-	}
+	err := scanner.Err()
+	shared.PanicIfError(err)
 
 	return validGameSum
 }
 
 func puzzle2(filePath string) int {
-	file, err := shared.OpenFile(filePath)
-
-	if err != nil {
-		return -1
-	}
+	file := shared.OpenFile(filePath)
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
@@ -59,10 +49,8 @@ func puzzle2(filePath string) int {
 		totalPowers += power
 	}
 
-	err = scanner.Err()
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-	}
+	err := scanner.Err()
+	shared.PanicIfError(err)
 
 	return totalPowers
 }
