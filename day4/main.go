@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	winnings := puzzle1("input.txt")
+	winnings := puzzle1("test1.txt")
 	fmt.Printf("Answer to problem 1 is: %d\n", winnings)
 
 	scratchCards := puzzle2("input.txt")
@@ -25,8 +25,10 @@ func puzzle1(filePath string) int {
 	for scanner.Scan() {
 		game := scanner.Text()
 		result := getCardWinners(game)
-		points := math.Pow(2, float64(result.totalWinningNumbers-1))
-		winningSum += int(points)
+		if result.totalWinningNumbers > 0 {
+			points := math.Pow(2, float64(result.totalWinningNumbers-1))
+			winningSum += int(points)
+		}
 	}
 
 	err := scanner.Err()
