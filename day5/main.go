@@ -48,7 +48,7 @@ func puzzle1(filePath string) int {
 			if lineLength > 1 && lineArr[0] == "seeds" { // seeds line
 				seedIds = utils.GetSeedIds(strings.Fields(lineArr[1]))
 			} else if lineLength > 1 && lineArr[0] != "seeds" { //mapping line
-				mapKey = utils.SetMapKey(line)
+				mapKey = utils.GetMapKey(line)
 			} else { // range line
 				currentRanges = append(currentRanges, structs.CreateRange(line))
 			}
@@ -96,7 +96,7 @@ func puzzle2(filePath string) int {
 			if lineLength > 1 && lineArr[0] == "seeds" { // seeds line
 				seedIds = utils.GetSeedIdsV2(strings.Fields(lineArr[1]))
 			} else if lineLength > 1 && lineArr[0] != "seeds" { //mapping line
-				mapKey = utils.SetMapKey(line)
+				mapKey = utils.GetMapKey(line)
 			} else { // range line
 				currentRanges = append(currentRanges, structs.CreateRange(line))
 			}

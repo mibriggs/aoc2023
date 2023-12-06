@@ -17,6 +17,7 @@ func (a SortByLocation) Len() int           { return len(a) }
 func (a SortByLocation) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 func (a SortByLocation) Less(i, j int) bool { return a[i].Loc < a[j].Loc }
 
+// Mutates the current Seed to update its values
 func (seed *Seed) SetParam(stop string, id int) {
 	if stop == "soil" {
 		seed.Soil = id
@@ -35,10 +36,12 @@ func (seed *Seed) SetParam(stop string, id int) {
 	}
 }
 
-func (seed1 Seed) IsCloser(seed2 Seed) bool {
-	return seed1.Loc <= seed2.Loc
+// Does the current Seed have a smaller location that the other seed?
+func (currSeed Seed) IsCloser(otherSeed Seed) bool {
+	return currSeed.Loc <= otherSeed.Loc
 }
 
+// Is the current Seed empty?
 func (seed Seed) IsEmpty() bool {
 	return seed.Id == -1 &&
 		seed.Loc == -1 &&
@@ -50,6 +53,7 @@ func (seed Seed) IsEmpty() bool {
 		seed.Humidity == -1
 }
 
+// Creates new Seed with given Seed Id and everything else -1
 func CreateSeed(seedId int) Seed {
 	return Seed{
 		Id:         seedId,
@@ -63,6 +67,7 @@ func CreateSeed(seedId int) Seed {
 	}
 }
 
+// Creates a Seed with all values set to -1
 func CreateEmptySeed() Seed {
 	return Seed{
 		Id:         -1,

@@ -10,6 +10,7 @@ import (
 
 var TraversalOrder = []string{"soil", "fertilizer", "water", "light", "temperature", "humidity", "location"}
 
+// Returns all Seed Ids for the file
 func GetSeedIds(seeds []string) []int {
 	ids := []int{}
 	for _, currentId := range seeds {
@@ -21,6 +22,7 @@ func GetSeedIds(seeds []string) []int {
 	return ids
 }
 
+// Returns a SeedRange
 func GetSeedIdsV2(seeds []string) []structs.SeedRange {
 	ids := []structs.SeedRange{}
 	currentSeedRange := structs.SeedRange{}
@@ -37,6 +39,7 @@ func GetSeedIdsV2(seeds []string) []structs.SeedRange {
 	return ids
 }
 
+// Gets the Seed nearest us by Location
 func GetSeedWithSmallestLocation(seeds []structs.Seed) (*structs.Seed, error) {
 	if len(seeds) == 0 {
 		return nil, errors.New("list is empty")
@@ -45,7 +48,8 @@ func GetSeedWithSmallestLocation(seeds []structs.Seed) (*structs.Seed, error) {
 	return &seeds[0], nil
 }
 
-func SetMapKey(nameLine string) string {
+// From a given string gets the destination key
+func GetMapKey(nameLine string) string {
 	arr := strings.Fields(nameLine)
 	names := strings.Split(arr[0], "-to-")
 	name := names[1]
@@ -53,6 +57,7 @@ func SetMapKey(nameLine string) string {
 	return strings.ToLower(name)
 }
 
+// Returns destination Id if the source Id exists in any of the Ranges else -1
 func DoesSourceExistInRange(sourceId int, ranges []structs.Range) int {
 	for _, currRange := range ranges {
 		destId := currRange.GetDestId(sourceId)
@@ -63,6 +68,7 @@ func DoesSourceExistInRange(sourceId int, ranges []structs.Range) int {
 	return -1
 }
 
+// Returns a list of Seeds based on list of Seed Ids and Range map
 func ContructSeedsArray(seedIds []int, rangeMap map[string][]structs.Range) []structs.Seed {
 	seeds := []structs.Seed{}
 	for _, seedId := range seedIds {
