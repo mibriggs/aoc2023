@@ -3,7 +3,6 @@ package structs
 import (
 	"Misc/aoc2023/day7/utils"
 	"Misc/aoc2023/shared"
-	"slices"
 )
 
 type Bid struct {
@@ -35,20 +34,4 @@ func (a SortByHandTypeV2) Len() int      { return len(a) }
 func (a SortByHandTypeV2) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 func (a SortByHandTypeV2) Less(i, j int) bool {
 	return a[j].Hand.IsStronger(a[i].Hand, utils.NewCardLabelMap)
-}
-
-func Test(bids []Bid, hasJoker bool) []Bid {
-	if hasJoker {
-		utils.CardLabelMap['j'] = 1
-	}
-	slices.SortFunc(bids, func(a, b Bid) int {
-		if b.Hand.IsStronger(a.Hand, utils.CardLabelMap) {
-			return -1
-		} else if a.Hand.IsStronger(b.Hand, utils.CardLabelMap) {
-			return 1
-		} else {
-			return 0
-		}
-	})
-	return bids
 }

@@ -31,9 +31,8 @@ func puzzle1(filePath string) int {
 		bids = append(bids, structs.ConstructBid(lineArr, false))
 	}
 
-	// sort.Sort(structs.SortByHandType(bids))
-	sortedBidsd := structs.Test(bids, false)
-	for indx, bid := range sortedBidsd {
+	sort.Sort(structs.SortByHandType(bids))
+	for indx, bid := range bids {
 		totalWinnings += (bid.Amount * (indx + 1))
 	}
 	return totalWinnings
