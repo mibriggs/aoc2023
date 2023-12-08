@@ -5,8 +5,7 @@ import (
 	"Misc/aoc2023/shared"
 	"bufio"
 	"fmt"
-	"sort"
-	"strings"
+	"slices"
 )
 
 func main() {
@@ -22,16 +21,10 @@ func puzzle1(filePath string) int {
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
-	bids := []structs.Bid{}
+	bids := structs.GetBids(scanner, false)
 	totalWinnings := 0
 
-	for scanner.Scan() {
-		line := scanner.Text()
-		lineArr := strings.Fields(line)
-		bids = append(bids, structs.ConstructBid(lineArr, false))
-	}
-
-	sort.Sort(structs.SortByHandType(bids))
+	slices.SortFunc(bids, structs.GetAppropriateSortFunction(false))
 	for indx, bid := range bids {
 		totalWinnings += (bid.Amount * (indx + 1))
 	}
@@ -43,16 +36,10 @@ func puzzle2(filePath string) int {
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
-	bids := []structs.Bid{}
+	bids := structs.GetBids(scanner, true)
 	totalWinnings := 0
 
-	for scanner.Scan() {
-		line := scanner.Text()
-		lineArr := strings.Fields(line)
-		bids = append(bids, structs.ConstructBid(lineArr, true))
-	}
-
-	sort.Sort(structs.SortByHandTypeV2(bids))
+	slices.SortFunc(bids, structs.GetAppropriateSortFunction(true))
 	for indx, bid := range bids {
 		totalWinnings += (bid.Amount * (indx + 1))
 	}

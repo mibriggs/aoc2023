@@ -3,6 +3,8 @@ package structs
 import (
 	"Misc/aoc2023/day7/utils"
 	"Misc/aoc2023/shared"
+	"bufio"
+	"strings"
 )
 
 type Bid struct {
@@ -18,20 +20,29 @@ func ConstructBid(row []string, withJoker bool) Bid {
 	return Bid{Amount: shared.ToInt(row[1]), Hand: constructHandWithJoker(row[0])}
 }
 
-// Sort by Hand Type using part 1 mapping
-type SortByHandType []Bid
-
-func (a SortByHandType) Len() int      { return len(a) }
-func (a SortByHandType) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
-func (a SortByHandType) Less(i, j int) bool {
-	return a[j].Hand.IsStronger(a[i].Hand, utils.CardLabelMap)
+// Returns correct sorting function based on whether this is a joker game or not
+func GetAppropriateSortFunction(hasJoker bool) func(a, b Bid) int {
+	cardLabelMap := utils.ConstructCardMapping(hasJoker)
+	return func(a, b Bid) int {
+		if b.Hand.IsStronger(a.Hand, cardLabelMap) {
+			return -1
+		} else if a.Hand.IsStronger(b.Hand, cardLabelMap) {
+			return 1
+		} else {
+			return 0
+		}
+	}
 }
 
-// Sort by Hand Type using part 2 mapping
-type SortByHandTypeV2 []Bid
+// Gets bids slice based on input and if we playing with joker rules
+func GetBids(scanner *bufio.Scanner, hasJoker bool) []Bid {
+	bids := []Bid{}
 
-func (a SortByHandTypeV2) Len() int      { return len(a) }
-func (a SortByHandTypeV2) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
-func (a SortByHandTypeV2) Less(i, j int) bool {
-	return a[j].Hand.IsStronger(a[i].Hand, utils.NewCardLabelMap)
+	for scanner.Scan() {
+		line := scanner.Text()
+		lineArr := strings.Fields(line)
+		bids = append(bids, ConstructBid(lineArr, hasJoker))
+	}
+
+	return bids
 }

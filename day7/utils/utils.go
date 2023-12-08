@@ -1,35 +1,31 @@
 package utils
 
-// Mapping where J = Jack
-var CardLabelMap = map[rune]int{
-	'2': 1,
-	'3': 2,
-	'4': 3,
-	'5': 4,
-	'6': 5,
-	'7': 6,
-	'8': 7,
-	'9': 8,
-	'T': 9,
-	'J': 10,
-	'Q': 11,
-	'K': 12,
-	'A': 13,
-}
+import (
+	"strconv"
+)
 
-// Mapping where J = Joker
-var NewCardLabelMap = map[rune]int{
-	'J': 1,
-	'2': 2,
-	'3': 3,
-	'4': 4,
-	'5': 5,
-	'6': 6,
-	'7': 7,
-	'8': 8,
-	'9': 9,
-	'T': 10,
-	'Q': 11,
-	'K': 12,
-	'A': 13,
+// Creates a map of card hand/suite to rank depending on if playing with jokers or not
+func ConstructCardMapping(hasJoker bool) map[rune]int {
+	cardLabelMap := map[rune]int{}
+
+	adder := 0
+	if !hasJoker {
+		adder = -1
+		cardLabelMap['J'] = 10
+
+	} else {
+		cardLabelMap['J'] = 1
+	}
+
+	for i := 2; i <= 9; i++ {
+		asRune := []rune(strconv.Itoa(i))[0]
+		cardLabelMap[asRune] = i + adder
+	}
+
+	cardLabelMap['Q'] = 11
+	cardLabelMap['K'] = 12
+	cardLabelMap['A'] = 13
+	cardLabelMap['T'] = 10 + adder
+
+	return cardLabelMap
 }
