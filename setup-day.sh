@@ -29,7 +29,7 @@ create_puzzle_func() {
 
     line1="\nfunc puzzle$input_param(filePath string) int {"
     line2="\tfile := shared.OpenFile(filePath)"
-    line3="\tdefer file.Close()"
+    line3="\tdefer file.Close()\n\n\tscanner := bufio.NewScanner(file)"
     line4="\n\treturn -1\n}"
 
 
@@ -37,19 +37,30 @@ create_puzzle_func() {
     echo "$result"
 }
 
-touch "$file_name"
-echo -e "package main\n\nimport (\n\t\"Misc/aoc2023/shared\"\n\t\"fmt\"\n)" > "$file_name"
-echo -e "\nfunc main() {" >> "$file_name"
-echo -e "\tanswer1 := puzzle1(\"\")" >> "$file_name"
-echo -e "\tfmt.Printf(\"The answer to problem 1 is: %d\\\n\", answer1)\n" >> "$file_name"
-echo -e "\tanswer2 := puzzle2(\"\")" >> "$file_name"
-echo -e "\tfmt.Printf(\"The answer to problem 2 is: %d\\\n\", answer2)" >> "$file_name"
-echo -e "}" >> "$file_name"
+create_answer_line() {
+    local problem_number="$1"
 
+    echo "\tanswer$problem_number := puzzle$problem_number(\"test.txt\")\n\tfmt.Printf(\"The answer to problem $problem_number is: %d\\\n\", answer$problem_number)"
+}
+
+touch "$file_name"
+answ1=$(create_answer_line "1")
+answ2=$(create_answer_line "2")
 func1=$(create_puzzle_func "1")
-echo -e "$func1" >> "$file_name"
 func2=$(create_puzzle_func "2")
+
+
+echo -e "package main\n\nimport (\n\t\"Misc/aoc2023/shared\"\n\t\"bufio\"\n\t\"fmt\"\n)" > "$file_name"
+echo -e "\nfunc main() {" >> "$file_name"
+echo -e "$answ1\n" >> "$file_name"
+echo -e "$answ2" >> "$file_name"
+echo -e "}" >> "$file_name"
+echo -e "$func1" >> "$file_name"
 echo -e "$func2" >> "$file_name"
+
+# Create test and input files
+touch "input.txt"
+touch "test.txt"
 
 # Make Children directories
 create_child_dirs() {
