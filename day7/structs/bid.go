@@ -12,6 +12,19 @@ type Bid struct {
 	Hand   Hand
 }
 
+// Gets bids slice based on input and if we playing with joker rules
+func GetBids(scanner *bufio.Scanner, hasJoker bool) []Bid {
+	bids := []Bid{}
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		lineArr := strings.Fields(line)
+		bids = append(bids, ConstructBid(lineArr, hasJoker))
+	}
+
+	return bids
+}
+
 // Creates a Bid from the give row array using different logic depending on if jokers exist
 func ConstructBid(row []string, withJoker bool) Bid {
 	if !withJoker {
@@ -32,17 +45,4 @@ func GetAppropriateSortFunction(hasJoker bool) func(a, b Bid) int {
 			return 0
 		}
 	}
-}
-
-// Gets bids slice based on input and if we playing with joker rules
-func GetBids(scanner *bufio.Scanner, hasJoker bool) []Bid {
-	bids := []Bid{}
-
-	for scanner.Scan() {
-		line := scanner.Text()
-		lineArr := strings.Fields(line)
-		bids = append(bids, ConstructBid(lineArr, hasJoker))
-	}
-
-	return bids
 }

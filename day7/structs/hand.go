@@ -45,7 +45,7 @@ func constructHand(cards string) Hand {
 func constructHandWithJoker(cards string) Hand {
 
 	cardCounts := getCardsCount(cards)
-	oldVal, jExists := cardCounts[strconv.QuoteRune('J')]
+	jokerCount, jExists := cardCounts[strconv.QuoteRune('J')]
 	if jExists {
 		cardCounts[strconv.QuoteRune('J')] = 0
 	}
@@ -54,7 +54,7 @@ func constructHandWithJoker(cards string) Hand {
 	slices.SortFunc(vals, sortCountAscending)
 
 	countMax := vals[0]
-	countMax += oldVal
+	countMax += jokerCount
 
 	handType := getHandType(countMax, vals)
 
