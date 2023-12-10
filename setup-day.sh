@@ -29,7 +29,7 @@ create_puzzle_func() {
 
     line1="\nfunc puzzle$input_param(filePath string) int {"
     line2="\tfile := shared.OpenFile(filePath)"
-    line3="\tdefer file.Close()\n\n\tscanner := bufio.NewScanner(file)"
+    line3="\tdefer file.Close()\n\n\tscanner := bufio.NewScanner(file)\n\n\tfor scanner.Scan() {\n\t\tline := scanner.Text()\n\t\tfmt.Println(line)\n\t}"
     line4="\n\treturn -1\n}"
 
 
